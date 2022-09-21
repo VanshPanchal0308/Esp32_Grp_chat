@@ -1,4 +1,4 @@
-# Install script for directory: /home/vansh/esp/esp-idf/components/libsodium
+# Install script for directory: /home/aryan/esp/esp-idf/components/libsodium
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

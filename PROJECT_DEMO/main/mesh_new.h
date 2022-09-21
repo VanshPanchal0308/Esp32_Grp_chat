@@ -13,7 +13,7 @@ void esp_mesh_p2p_tx_main(void *arg);
 
 
 
- void espmesh_start(void);
+ void espmesh_start();
 
 
  void esp_mesh_p2p_rx_main(void *arg);
@@ -30,7 +30,7 @@ void esp_mesh_p2p_tx_main(void *arg);
  void ip_event_handler(void *arg, esp_event_base_t event_base,int32_t event_id, void *event_data);
 
 
-void esp_main(void) ;
+void esp_main() ;
 
 
 

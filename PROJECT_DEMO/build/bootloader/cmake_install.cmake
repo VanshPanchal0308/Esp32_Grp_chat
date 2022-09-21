@@ -1,4 +1,4 @@
-# Install script for directory: /home/vansh/esp/esp-idf/components/bootloader/subproject
+# Install script for directory: /home/aryan/esp/esp-idf/components/bootloader/subproject
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,7 +34,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/vansh/Desktop/PROJECT_DEMO/build/bootloader/esp-idf/cmake_install.cmake")
+  include("/home/aryan/Esp32_Grp_chat/PROJECT_DEMO/build/bootloader/esp-idf/cmake_install.cmake")
 
 endif()
 
@@ -46,5 +46,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/vansh/Desktop/PROJECT_DEMO/build/bootloader/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/aryan/Esp32_Grp_chat/PROJECT_DEMO/build/bootloader/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

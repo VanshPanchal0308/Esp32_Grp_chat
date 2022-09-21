@@ -4,9 +4,7 @@ idf_component_register(SRCS "commands.c"
                             "argtable3/argtable3.c"
                             "linenoise/linenoise.c"
                             "main.c"
+                            
                            
                     INCLUDE_DIRS "."
-                    REQUIRES vfs  
-                    
-                    
-                     )
+                    REQUIRES vfs  nvs_flash )

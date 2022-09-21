@@ -1,4 +1,4 @@
-# Install script for directory: /home/vansh/Desktop/PROJECT_DEMO/components
+# Install script for directory: /home/aryan/Esp32_Grp_chat/PROJECT_DEMO/components
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

@@ -1,4 +1,4 @@
-# Install script for directory: /home/vansh/Desktop/PROJECT_DEMO/main
+# Install script for directory: /home/aryan/Esp32_Grp_chat/PROJECT_DEMO/main
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

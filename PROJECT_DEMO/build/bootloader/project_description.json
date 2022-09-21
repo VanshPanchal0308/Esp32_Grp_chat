@@ -1,20 +1,20 @@
 {
     "project_name":       "bootloader",
-    "project_path":       "/home/vansh/esp/esp-idf/components/bootloader/subproject",
-    "build_dir":          "/home/vansh/Desktop/PROJECT_DEMO/build/bootloader",
-    "config_file":        "/home/vansh/Desktop/PROJECT_DEMO/sdkconfig",
+    "project_path":       "/home/aryan/esp/esp-idf/components/bootloader/subproject",
+    "build_dir":          "/home/aryan/Esp32_Grp_chat/PROJECT_DEMO/build/bootloader",
+    "config_file":        "/home/aryan/Esp32_Grp_chat/PROJECT_DEMO/sdkconfig",
     "config_defaults":    "",
     "app_elf":            "bootloader.elf",
     "app_bin":            "bootloader.bin",
-    "git_revision":       "v4.2.3-222-g997844bbc3",
+    "git_revision":       "v4.2.3-222-g997844bbc3-dirty",
     "target":             "esp32",
     "phy_data_partition": "",
     "monitor_baud" :      "115200",
     "monitor_toolprefix": "xtensa-esp32-elf-",
     "config_environment" : {
-        "COMPONENT_KCONFIGS" : "/home/vansh/esp/esp-idf/components/efuse/Kconfig;/home/vansh/esp/esp-idf/components/esp32/Kconfig;/home/vansh/esp/esp-idf/components/esp_common/Kconfig;/home/vansh/esp/esp-idf/components/log/Kconfig;/home/vansh/esp/esp-idf/components/spi_flash/Kconfig",
-        "COMPONENT_KCONFIGS_PROJBUILD" : "/home/vansh/esp/esp-idf/components/bootloader/Kconfig.projbuild;/home/vansh/esp/esp-idf/components/esptool_py/Kconfig.projbuild;/home/vansh/esp/esp-idf/components/partition_table/Kconfig.projbuild"
+        "COMPONENT_KCONFIGS" : "/home/aryan/esp/esp-idf/components/efuse/Kconfig;/home/aryan/esp/esp-idf/components/esp32/Kconfig;/home/aryan/esp/esp-idf/components/esp_common/Kconfig;/home/aryan/esp/esp-idf/components/log/Kconfig;/home/aryan/esp/esp-idf/components/spi_flash/Kconfig",
+        "COMPONENT_KCONFIGS_PROJBUILD" : "/home/aryan/esp/esp-idf/components/bootloader/Kconfig.projbuild;/home/aryan/esp/esp-idf/components/esptool_py/Kconfig.projbuild;/home/aryan/esp/esp-idf/components/partition_table/Kconfig.projbuild"
     },
     "build_components" : [ "bootloader", "bootloader_support", "efuse", "esp32", "esp_common", "esp_rom", "esptool_py", "log", "main", "micro-ecc", "partition_table", "soc", "spi_flash", "xtensa", "" ],
-    "build_component_paths" : [ "/home/vansh/esp/esp-idf/components/bootloader", "/home/vansh/esp/esp-idf/components/bootloader_support", "/home/vansh/esp/esp-idf/components/efuse", "/home/vansh/esp/esp-idf/components/esp32", "/home/vansh/esp/esp-idf/components/esp_common", "/home/vansh/esp/esp-idf/components/esp_rom", "/home/vansh/esp/esp-idf/components/esptool_py", "/home/vansh/esp/esp-idf/components/log", "/home/vansh/esp/esp-idf/components/bootloader/subproject/main", "/home/vansh/esp/esp-idf/components/bootloader/subproject/components/micro-ecc", "/home/vansh/esp/esp-idf/components/partition_table", "/home/vansh/esp/esp-idf/components/soc", "/home/vansh/esp/esp-idf/components/spi_flash", "/home/vansh/esp/esp-idf/components/xtensa", "" ]
+    "build_component_paths" : [ "/home/aryan/esp/esp-idf/components/bootloader", "/home/aryan/esp/esp-idf/components/bootloader_support", "/home/aryan/esp/esp-idf/components/efuse", "/home/aryan/esp/esp-idf/components/esp32", "/home/aryan/esp/esp-idf/components/esp_common", "/home/aryan/esp/esp-idf/components/esp_rom", "/home/aryan/esp/esp-idf/components/esptool_py", "/home/aryan/esp/esp-idf/components/log", "/home/aryan/esp/esp-idf/components/bootloader/subproject/main", "/home/aryan/esp/esp-idf/components/bootloader/subproject/components/micro-ecc", "/home/aryan/esp/esp-idf/components/partition_table", "/home/aryan/esp/esp-idf/components/soc", "/home/aryan/esp/esp-idf/components/spi_flash", "/home/aryan/esp/esp-idf/components/xtensa", "" ]
 }

@@ -11,6 +11,8 @@
 #include "data_transfer.h"
 #include "mesh_new.h"
 #include "nvs_flash.h"
+#include "driver/uart.h"
+#include "esp_vfs_dev.h"
 
 
 static const char *TAG = "conslole_main";
@@ -137,13 +139,14 @@ void task_console()
 
 }
 
-void app_main(void)
+void app_main()
 {
-     initialize_console();
+    initialize_nvs();
+    initialize_console();
     /*setup espnow interconnection*/
-    esp_main(void);//
+    esp_main();//
 
-    ESP_LOGI("\nChat Communication\n");
+    printf("\nChat Communication\n");
     xTaskCreate(task_console, "task_console", 3000, NULL, 3, &console);
 
 }
