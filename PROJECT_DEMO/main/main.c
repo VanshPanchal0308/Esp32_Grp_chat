@@ -117,7 +117,7 @@ void task_console()
          */
         /*take user input typed at the prompt*/
         char *line = linenoise(prompt);
-        printf("the data is %s",line)
+        printf("the data is %s",line);
         /*prompt again if the string is empty*/
         while (line == NULL) { /* Break on EOF or error */
             ESP_LOGW(TAG, "Enter a message!!");
