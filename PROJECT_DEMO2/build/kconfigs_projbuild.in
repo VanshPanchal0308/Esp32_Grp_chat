@@ -1,5 +1,0 @@
-source "/home/aryan/esp/esp-idf/components/app_update/Kconfig.projbuild"
-source "/home/aryan/esp/esp-idf/components/bootloader/Kconfig.projbuild"
-source "/home/aryan/esp/esp-idf/components/esptool_py/Kconfig.projbuild"
-source "/home/aryan/esp/esp-idf/components/partition_table/Kconfig.projbuild"
-source "/home/aryan/Esp32_Grp_chat/PROJECT_DEMO2/components/Kconfig.projbuild"
