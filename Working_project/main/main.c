@@ -119,7 +119,7 @@ void task_console()
          */
         /*take user input typed at the prompt*/
         char *line = linenoise(prompt);
-       // ESP_LOGI(TAG,"THE message we typesd is %s",line);
+        ESP_LOGI(TAG,"THE message we typesd is %s",line);
         /*prompt again if the string is empty*/
         while (line == NULL) { /* Break on EOF or error */
             ESP_LOGW(TAG, "Enter a message!!");
@@ -141,7 +141,7 @@ void task_console()
         }
         /* linenoise allocates line buffer on the heap, so need to free it */
         linenoiseFree(line);
-        //vTaskSuspend(console);
+        vTaskSuspend(console);
     }
 
 }
