@@ -111,6 +111,7 @@ static void initialize_console(void)
 void task_console()
 {
     console_to_espmesh_send = xQueueCreate(100, 250 * sizeof(char));
+    //espmesh_start();
     while (1)
     {
         /* Get a line using linenoise.
@@ -129,10 +130,6 @@ void task_console()
         if (strlen(line) > 0)
         {
             linenoiseHistoryAdd(line);
-#if CONFIG_STORE_HISTORY
-            /* Save command history to filesystem */
-            linenoiseHistorySave(HISTORY_PATH);
-#endif
             if (xQueueSend(console_to_espmesh_send, &line, portMAX_DELAY) != pdTRUE)
             {
                 ESP_LOGW(TAG, "Send data to esp mesh failed.........");
@@ -141,7 +138,7 @@ void task_console()
         }
         /* linenoise allocates line buffer on the heap, so need to free it */
         linenoiseFree(line);
-        vTaskSuspend(console);
+        // vTaskSuspend(console);
     }
 
 }

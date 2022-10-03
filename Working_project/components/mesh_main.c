@@ -55,7 +55,7 @@ char *got;  //made
     .token_id = MESH_TOKEN_ID,
     .token_value = MESH_TOKEN_VALUE,
 };*/
-static const mesh_addr_t broadcast ={.addr = {0xff,0xff,0xff,0xff,0xff,0xff}};
+//static const mesh_addr_t broadcast ={.addr = {0xff,0xff,0xff,0xff,0xff,0xff}};
 char data_to_be_sent[250];
 char *msg;
 /*******************************************************
@@ -83,13 +83,14 @@ void esp_mesh_p2p_tx_main(void *arg)
 
     while (is_running) {
         /* non-root do nothing but print */
-        if (!esp_mesh_is_root()) {
-            ESP_LOGI(MESH_TAG, "layer:%d, rtableSize:%d, %s", mesh_layer,
-                     esp_mesh_get_routing_table_size(),
-                     (is_mesh_connected && esp_mesh_is_root()) ? "ROOT" : is_mesh_connected ? "NODE" : "DISCONNECT");
-            vTaskDelay(10 * 1000 / portTICK_RATE_MS);
-            continue;
-        }
+        // if (!esp_mesh_is_root()) {
+        //     ESP_LOGI(MESH_TAG, "layer:%d, rtableSize:%d, %s", mesh_layer,
+        //              esp_mesh_get_routing_table_size(),
+        //              (is_mesh_connected && esp_mesh_is_root()) ? "ROOT" : is_mesh_connected ? "NODE" : "DISCONNECT");
+        //     vTaskDelay(10 * 1000 / portTICK_RATE_MS);
+        //     continue;
+        // }
+        ESP_LOGI(TAG,"MSG after while is %s ******** ",data.data);
         esp_mesh_get_routing_table((mesh_addr_t *) &route_table,
                                    CONFIG_MESH_ROUTE_TABLE_SIZE * 6, &route_table_size);
         if (send_count && !(send_count % 100)) {
@@ -112,7 +113,8 @@ void esp_mesh_p2p_tx_main(void *arg)
         for (i = 0; i < route_table_size; i++) {
           // ESP_LOGI(TAG,"\n\nDATA we got %s\n\n", data_to_be_sent);
             
-           err = esp_mesh_send(&broadcast, &data, MESH_DATA_P2P, NULL, 0);
+          // err = esp_mesh_send(&broadcast, &data, MESH_DATA_P2P, NULL, 0);
+          err = esp_mesh_send(&route_table[i], &data, MESH_DATA_P2P, NULL, 0);
             if (err) {
                 ESP_LOGE(MESH_TAG,
                          "[ROOT-2-UNICAST:%d][L:%d]parent:"MACSTR" to "MACSTR", heap:%d[err:0x%x, proto:%d, tos:%d]",
@@ -148,15 +150,18 @@ void esp_mesh_p2p_rx_main(void *arg)
     data.data = rx_buf;
     data.size = RX_SIZE;
     is_running = true;
-    int n =1;
+     int n =1;
 
     while (is_running) {
         data.size = RX_SIZE;
         err = esp_mesh_recv(&from, &data, portMAX_DELAY, &flag, NULL, 0);
+
         if (err != ESP_OK || !data.size) {
             ESP_LOGE(MESH_TAG, "err:0x%x, size:%d", err, data.size);
+            ESP_LOGW(MESH_TAG, "++++++++++++++++++++++ %s \n\n",(char *)data.data);
             continue;
         }
+        // ESP_LOGW(MESH_TAG, "++++++++++++++++++++++ %s \n\n",(char *)data.data);
         /* extract send count */
         if (data.size >= sizeof(send_count)) {
             send_count = (data.data[25] << 24) | (data.data[24] << 16)
@@ -165,7 +170,7 @@ void esp_mesh_p2p_rx_main(void *arg)
         recv_count++;
         /* process light control */
        // mesh_light_process(&from, data.data, data.size);
-        if (!(recv_count % 1)&& n == 1) {
+        if (!(recv_count % 1)&&n==1) {
             ESP_LOGW(MESH_TAG,
                      "The message recieved is: %s \n\n",(char *)data.data);
                      n++;
@@ -187,16 +192,16 @@ void espmesh_start(void )
     msg=data_to_be_sent;
     ESP_LOGI(TAG,"THE TRIED MESSAGE IS %s",msg);
      xTaskCreate(esp_mesh_p2p_tx_main, "esp_mesh_p2p_tx_main", 5000, NULL, 5, NULL);
-     xTaskCreate(esp_mesh_p2p_rx_main, "esp_mesh_p2p_rx_main", 5000, NULL, 5 , NULL);
-}
+     xTaskCreate(esp_mesh_p2p_rx_main, "esp_mesh_p2p_rx_main", 5000, NULL, 5, NULL);
+ }
 esp_err_t esp_mesh_comm_p2p_start(void)
 {
     static bool is_comm_p2p_started = false;
     if (!is_comm_p2p_started) {
         is_comm_p2p_started = true;
-    //    xTaskCreate(esp_mesh_p2p_tx_main, "MPTX", 3072, NULL, 5, NULL);
-    //    xTaskCreate(esp_mesh_p2p_rx_main, "MPRX", 3072, NULL, 5, NULL);
-    //    xTaskCreate(espmesh_start,"mesh_start",3072,NULL,6,NULL);
+    //   xTaskCreate(esp_mesh_p2p_tx_main, "MPTX", 3072, NULL, 4, NULL);
+    //     xTaskCreate(esp_mesh_p2p_rx_main, "MPRX", 3072, NULL, 4, NULL);
+    // // //    xTaskCreate(espmesh_start,"mesh_start",3072,NULL,6,NULL);
     }
     return ESP_OK;
 }
