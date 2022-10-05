@@ -71,7 +71,7 @@ void esp_mesh_p2p_tx_main(void *arg)
     esp_err_t err;
     int send_count = 0;
     mesh_addr_t route_table[CONFIG_MESH_ROUTE_TABLE_SIZE];
-    int route_table_size = 0;
+    int route_table_size = 3;
     mesh_data_t data;
     //char *data_to_be_sent ;        //="hello world form vansh";
     data.data = (uint8_t *)msg;
@@ -81,16 +81,16 @@ void esp_mesh_p2p_tx_main(void *arg)
     data.tos = MESH_TOS_P2P;
     is_running = true;
 
-    while (is_running) {
+   //while (is_running) {
         /* non-root do nothing but print */
         // if (!esp_mesh_is_root()) {
         //     ESP_LOGI(MESH_TAG, "layer:%d, rtableSize:%d, %s", mesh_layer,
         //              esp_mesh_get_routing_table_size(),
         //              (is_mesh_connected && esp_mesh_is_root()) ? "ROOT" : is_mesh_connected ? "NODE" : "DISCONNECT");
         //     vTaskDelay(10 * 1000 / portTICK_RATE_MS);
-        //     continue;
+        //    // continue;
         // }
-        ESP_LOGI(TAG,"MSG after while is %s ******** ",data.data);
+       // ESP_LOGI(TAG,"MSG after while is %s ******** ",data.data);
         esp_mesh_get_routing_table((mesh_addr_t *) &route_table,
                                    CONFIG_MESH_ROUTE_TABLE_SIZE * 6, &route_table_size);
         if (send_count && !(send_count % 100)) {
@@ -109,12 +109,24 @@ void esp_mesh_p2p_tx_main(void *arg)
         }*/
         //err = esp_mesh_send(&broadcast, &data, MESH_DATA_P2P, NULL, 0);
         //ESP_LOGI(TAG,"\n message for debuging is %s",(char *)data.data);
+        
         //ESP_LOGI(TAG,"\n\nDATA we got %s\n\n", data_to_be_sent);
+        // int j=0;
+        for (int j=0;j<=10;j++)
+        {
+            ESP_LOGW(TAG,"the mac add of routing table is %s for content no %d",route_table[j].addr,j);
+        }
+        
         for (i = 0; i < route_table_size; i++) {
           // ESP_LOGI(TAG,"\n\nDATA we got %s\n\n", data_to_be_sent);
             
           // err = esp_mesh_send(&broadcast, &data, MESH_DATA_P2P, NULL, 0);
-          err = esp_mesh_send(&route_table[i], &data, MESH_DATA_P2P, NULL, 0);
+         err = esp_mesh_send(&route_table[i], &data, MESH_DATA_P2P, NULL, 0);
+        
+        //  vTaskDelay(1 * 1000 / portTICK_RATE_MS);
+
+         //err = esp_mesh_send(&route_table[i], &data,MESH_DATA_TODS, NULL, 0);
+         ESP_LOGW(MESH_TAG, "message after send is  ------------ %s \n\n",(char *)data.data);
             if (err) {
                 ESP_LOGE(MESH_TAG,
                          "[ROOT-2-UNICAST:%d][L:%d]parent:"MACSTR" to "MACSTR", heap:%d[err:0x%x, proto:%d, tos:%d]",
@@ -135,7 +147,7 @@ void esp_mesh_p2p_tx_main(void *arg)
         if (route_table_size < 10) {
             vTaskDelay(1 * 1000 / portTICK_RATE_MS);
         }
-    }
+   // }
     vTaskDelete(NULL);
 }
 
@@ -150,34 +162,39 @@ void esp_mesh_p2p_rx_main(void *arg)
     data.data = rx_buf;
     data.size = RX_SIZE;
     is_running = true;
-     int n =1;
-
-    while (is_running) {
+    // int n =1;
+     
+     while (is_running) {
         data.size = RX_SIZE;
         err = esp_mesh_recv(&from, &data, portMAX_DELAY, &flag, NULL, 0);
+        // vTaskDelay(1 * 1000 / portTICK_RATE_MS);
+         // err = esp_mesh_recv(&from, &data, portMAX_DELAY, MESH_DATA_TODS, NULL, 0);
+         ESP_LOGW(TAG,"THE MSG OUT OF RECV IS %s",(char *)data.data);
+         ESP_LOGI(TAG,"the mac addresss of from is %s",from.addr);
 
-        if (err != ESP_OK || !data.size) {
-            ESP_LOGE(MESH_TAG, "err:0x%x, size:%d", err, data.size);
-            ESP_LOGW(MESH_TAG, "++++++++++++++++++++++ %s \n\n",(char *)data.data);
-            continue;
-        }
+        //  if (err != ESP_OK || !data.size) {
+        //     ESP_LOGE(MESH_TAG, "err:0x%x, size:%d", err, data.size);
+        //     // ESP_LOGW(MESH_TAG, "++++++++++++++++++++++ %s \n\n",(char *)data.data);
+        //   continue;
+        // }
         // ESP_LOGW(MESH_TAG, "++++++++++++++++++++++ %s \n\n",(char *)data.data);
         /* extract send count */
         if (data.size >= sizeof(send_count)) {
             send_count = (data.data[25] << 24) | (data.data[24] << 16)
                          | (data.data[23] << 8) | data.data[22];
         }
-        recv_count++;
+        // recv_count++;
         /* process light control */
        // mesh_light_process(&from, data.data, data.size);
-        if (!(recv_count % 1)&&n==1) {
-            ESP_LOGW(MESH_TAG,
-                     "The message recieved is: %s \n\n",(char *)data.data);
-                     n++;
-        }
-    }
+    //     if (!(recv_count % 1)&&n==1) {
+    //         ESP_LOGW(MESH_TAG,
+    //                  "The message recieved is: %s \n\n",(char *)data.data);
+    //                  n++;
+    //                 //  vTaskDelay(1 * 1000 / portTICK_RATE_MS);
+    //     }
+     }
     vTaskDelete(NULL);
-}
+ }
 
 void espmesh_start(void )
 
