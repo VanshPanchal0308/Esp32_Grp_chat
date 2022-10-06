@@ -56,9 +56,10 @@ char *got;  //made
     .token_id = MESH_TOKEN_ID,
     .token_value = MESH_TOKEN_VALUE,
 };*/
-static const mesh_addr_t broadcast ={.addr = {0xff,0xff,0xff,0xff,0xff,0xff}};
+//static const mesh_addr_t broadcast ={.addr = {0xff,0xff,0xff,0xff,0xff,0xff}};
 char data_to_be_sent[250];
 char *msg;
+char *msg_recv;
 /*******************************************************
  *                Function Declarations
  *******************************************************/
@@ -70,9 +71,10 @@ void esp_mesh_p2p_tx_main(void *arg)
 {
     int i;
     esp_err_t err;
+    esp_err_t err_1;
     int send_count = 0;
     mesh_addr_t route_table[CONFIG_MESH_ROUTE_TABLE_SIZE];
-    int route_table_size = 3;
+    int route_table_size = 5;
     mesh_data_t data;
     //char *data_to_be_sent ;        //="hello world form vansh";
     data.data = (uint8_t *)msg;
@@ -80,7 +82,7 @@ void esp_mesh_p2p_tx_main(void *arg)
     data.size = sizeof(tx_buf);
     data.proto = MESH_PROTO_BIN;
     data.tos = MESH_TOS_P2P;
-    is_running = true;
+   // is_running = true;
 
 //    while (is_running) {
         /* non-root do nothing but print */
@@ -102,10 +104,10 @@ void esp_mesh_p2p_tx_main(void *arg)
                      esp_mesh_get_routing_table_size(), send_count);
         }
         send_count++;
-        tx_buf[25] = (send_count >> 24) & 0xff;
-        tx_buf[24] = (send_count >> 16) & 0xff;
-        tx_buf[23] = (send_count >> 8) & 0xff;
-        tx_buf[22] = (send_count >> 0) & 0xff;
+        // tx_buf[25] = (send_count >> 24) & 0xff;
+        // tx_buf[24] = (send_count >> 16) & 0xff;
+        // tx_buf[23] = (send_count >> 8) & 0xff;
+        // tx_buf[22] = (send_count >> 0) & 0xff;
         /*if (send_count % 2) {
             memcpy(tx_buf, (uint8_t *)&light_on, sizeof(light_on));
         } else {
@@ -116,23 +118,26 @@ void esp_mesh_p2p_tx_main(void *arg)
         
         //ESP_LOGI(TAG,"\n\nDATA we got %s\n\n", data_to_be_sent);
         // int j=0;
-        for (int j=0;j<=3;j++)
-        {
-            // ESP_LOGW(TAG,"the mac add of routing table is %s for content no %d",route_table[j].addr,j);
-           ESP_LOGW(MESH_TAG,"connected to parent with mac "MACSTR"",MAC2STR(route_table[j].addr));
-           ESP_LOGW(MESH_TAG,"connected to parent with mac "MACSTR"",MAC2STR(broadcast.addr));
-        }
-        
+        // for (int j=0;j<=3;j++)
+        // {
+        //     // ESP_LOGW(TAG,"the mac add of routing table is %s for content no %d",route_table[j].addr,j);
+        //    ESP_LOGW(MESH_TAG,"connected to parent with mac "MACSTR"",MAC2STR(route_table[j].addr));
+        //    ESP_LOGW(MESH_TAG,"connected to parent with mac "MACSTR"",MAC2STR(broadcast.addr));
+        // }
+        // err_1 = esp_mesh_send(&mesh_parent_addr, &data, MESH_DATA_P2P, NULL, 0);
         for (i = 0; i < route_table_size; i++) {
           // ESP_LOGI(TAG,"\n\nDATA we got %s\n\n", data_to_be_sent);
             
-           err = esp_mesh_send(&broadcast, &data, MESH_DATA_P2P, NULL, 0);
+        //err = esp_mesh_send(&broadcast, &data, MESH_DATA_P2P, NULL, 0);
+        err_1 = esp_mesh_send(&mesh_parent_addr, &data, MESH_DATA_P2P, NULL, 0);
+        err = esp_mesh_send(&route_table[i], &data, MESH_DATA_P2P, NULL, 0);
+        data.data = (uint8_t *)msg_recv;     
          err = esp_mesh_send(&route_table[i], &data, MESH_DATA_P2P, NULL, 0);
-        
+         err_1 = esp_mesh_send(&mesh_parent_addr, &data, MESH_DATA_P2P, NULL, 0);
         //  vTaskDelay(1 * 1000 / portTICK_RATE_MS);
 
          //err = esp_mesh_send(&route_table[i], &data,MESH_DATA_TODS, NULL, 0);
-         ESP_LOGW(MESH_TAG, "message after send is  ------------ %s \n\n",(char *)data.data);
+         //ESP_LOGW(MESH_TAG, "message after send is  ------------ %s \n\n",(char *)data.data);
             if (err) {
                 ESP_LOGE(MESH_TAG,
                          "[ROOT-2-UNICAST:%d][L:%d]parent:"MACSTR" to "MACSTR", heap:%d[err:0x%x, proto:%d, tos:%d]",
@@ -149,6 +154,7 @@ void esp_mesh_p2p_tx_main(void *arg)
                          err, data.proto, data.tos);
             }
         }
+        // err_1 = esp_mesh_send(&mesh_parent_addr, &data, MESH_DATA_P2P, NULL, 0);
         /* if route_table_size is less than 10, add delay to avoid watchdog in this task. */
         if (route_table_size < 10) {
             vTaskDelay(1 * 1000 / portTICK_RATE_MS);
@@ -159,7 +165,7 @@ void esp_mesh_p2p_tx_main(void *arg)
 
 void esp_mesh_p2p_rx_main(void *arg)
 {
-    //int recv_count = 0;
+  //  int recv_count = 0;
     esp_err_t err;
     mesh_addr_t from;
     int send_count = 0;
@@ -175,8 +181,10 @@ void esp_mesh_p2p_rx_main(void *arg)
         err = esp_mesh_recv(&from, &data, portMAX_DELAY, &flag, NULL, 0);
         // vTaskDelay(1 * 1000 / portTICK_RATE_MS);
          // err = esp_mesh_recv(&from, &data, portMAX_DELAY, MESH_DATA_TODS, NULL, 0);
-         ESP_LOGW(TAG,"THE MSG OUT OF RECV IS %s",(char *)data.data);
-         ESP_LOGI(TAG,"the mac addresss of from is "MACSTR"",MAC2STR(from.addr));
+         ESP_LOGW(TAG,"THE MSG recieved is:%s",(char *)data.data);
+         msg_recv=(char *)data.data;
+         ESP_LOGE(TAG,"the mes recv is %s",msg_recv);
+        //  ESP_LOGI(TAG,"the mac addresss of from is "MACSTR"",MAC2STR(from.addr));
 
         //  if (err != ESP_OK || !data.size) {
         //     ESP_LOGE(MESH_TAG, "err:0x%x, size:%d", err, data.size);
@@ -189,19 +197,18 @@ void esp_mesh_p2p_rx_main(void *arg)
             send_count = (data.data[25] << 24) | (data.data[24] << 16)
                          | (data.data[23] << 8) | data.data[22];
         }
-        // recv_count++;
-        /* process light control */
-       // mesh_light_process(&from, data.data, data.size);
+    //      recv_count++;
+    //     /* process light control */
+    //    // mesh_light_process(&from, data.data, data.size);
     //     if (!(recv_count % 1)&&n==1) {
     //         ESP_LOGW(MESH_TAG,
     //                  "The message recieved is: %s \n\n",(char *)data.data);
-    //                  n++
+    //                  n++;
     //                 //  vTaskDelay(1 * 1000 / portTICK_RATE_MS);
     //     }
-     }
+      }
     vTaskDelete(NULL);
  }
-
 void espmesh_start(void )
 
 {
