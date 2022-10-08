@@ -42,7 +42,9 @@ static bool is_mesh_connected = false;
 static mesh_addr_t mesh_parent_addr;
 static int mesh_layer = -1;
 static esp_netif_t *netif_sta = NULL;
-char *got;  //made
+char *got;
+//char *last = " ";
+  //made
 /*mesh_light_ctl_t light_on = {
     .cmd = MESH_CONTROL_CMD,
     .on = 1,
@@ -59,7 +61,7 @@ char *got;  //made
 //static const mesh_addr_t broadcast ={.addr = {0xff,0xff,0xff,0xff,0xff,0xff}};
 char data_to_be_sent[250];
 char *msg;
-char *msg_recv;
+//char *msg_recv;
 //esp_err_t err_1;
 /*******************************************************
  *                Function Declarations
@@ -180,14 +182,23 @@ void esp_mesh_p2p_rx_main(void *arg)
     is_running = true;
     int n =1;
     int j;
-    int m=1;
+    //int m=1;
+    //int comp;
      
      while (is_running) {
         data.size = RX_SIZE;
         err = esp_mesh_recv(&from, &data, portMAX_DELAY, &flag, NULL, 0);
         // vTaskDelay(1 * 1000 / portTICK_RATE_MS);
          // err = esp_mesh_recv(&from, &data, portMAX_DELAY, MESH_DATA_TODS, NULL, 0);
+        //  msg_recv=(char *)data.data;
+        //  comp = strcmp(msg_recv,last);
+        //  last = (char *)data.data;
+        //  if (comp ==0)
+        //  {
          ESP_LOGW(TAG,"THE MSG recieved is:%s",(char *)data.data);
+        //  last = (char *)data.data;
+         //}
+
         //  msg_recv=(char *)data.data;
         //  if(esp_mesh_is_root() )
         //  {
@@ -202,7 +213,7 @@ void esp_mesh_p2p_rx_main(void *arg)
         //       }
         //  }
         // ESP_LOGE(TAG,"the mes recv is %s",msg_recv);
-        ESP_LOGI(TAG,"the mac addresss of from is "MACSTR"",MAC2STR(from.addr));
+        // ESP_LOGI(TAG,"the mac addresss of from is "MACSTR"",MAC2STR(from.addr));
 
          if (err != ESP_OK || !data.size) {
             ESP_LOGE(MESH_TAG, "err:0x%x, size:%d", err, data.size);
@@ -217,7 +228,7 @@ void esp_mesh_p2p_rx_main(void *arg)
         }
         
 
-        if(esp_mesh_is_root() && n<=5)
+        if(esp_mesh_is_root()) //)
         {
             mesh_addr_t route_table[CONFIG_MESH_ROUTE_TABLE_SIZE];
             int route_table_size = 5;
@@ -229,22 +240,22 @@ void esp_mesh_p2p_rx_main(void *arg)
             // n++;
             }
             // n++;
-        ESP_LOGI(TAG,"the mac addresss of paret n is "MACSTR"",MAC2STR(from.addr));    
+        // ESP_LOGI(TAG,"the mac addresss of paret n is "MACSTR"",MAC2STR(from.addr));    
         if(err!= ESP_OK)
         {
             ESP_LOGE(MESH_TAG,"ERORR %x",err);
         }
-        n++;
+        // n++;.
         }
-         recv_count++;
+        //  recv_count++;
     //     /* process light control */
     //    // mesh_light_process(&from, data.data, data.size);
-        if (!(recv_count % 1)&&m==1) {
-            ESP_LOGW(MESH_TAG,
-                     "The message recieved is: %s \n\n",(char *)data.data);
-                     m++;
-                    //  vTaskDelay(1 * 1000 / portTICK_RATE_MS);
-        }
+        // if (!(recv_count % 1)&&m==1) {
+        //     ESP_LOGW(MESH_TAG,
+        //              "The message recieved is: %s \n\n",(char *)data.data);
+        //              m++;
+        //             //  vTaskDelay(1 * 1000 / portTICK_RATE_MS);
+        // }
       }
     vTaskDelete(NULL);
  }
