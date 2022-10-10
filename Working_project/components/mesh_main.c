@@ -28,7 +28,7 @@
 #define RX_SIZE          (1500)
 #define TX_SIZE          (1460)
 #define TAG "ESP_MESH"
-#define CONFIG_MESH_ROUTE_TABLE_SIZE  50 //
+#define CONFIG_MESH_ROUTE_TABLE_SIZE  5//
 
 /*******************************************************
  *                Variable Definitions
@@ -43,7 +43,7 @@ static mesh_addr_t mesh_parent_addr;
 static int mesh_layer = -1;
 static esp_netif_t *netif_sta = NULL;
 char *got;
-//char *last = " ";
+char *last;
   //made
 /*mesh_light_ctl_t light_on = {
     .cmd = MESH_CONTROL_CMD,
@@ -61,7 +61,7 @@ char *got;
 //static const mesh_addr_t broadcast ={.addr = {0xff,0xff,0xff,0xff,0xff,0xff}};
 char data_to_be_sent[250];
 char *msg;
-//char *msg_recv;
+char *msg_recv;
 //esp_err_t err_1;
 /*******************************************************
  *                Function Declarations
@@ -133,7 +133,9 @@ void esp_mesh_p2p_tx_main(void *arg)
             
         //err = esp_mesh_send(&broadcast, &data, MESH_DATA_P2P, NULL, 0);
         err_1 = esp_mesh_send(&mesh_parent_addr, &data, MESH_DATA_P2P, NULL, 0);
+        vTaskDelay(1 * 1000 / portTICK_RATE_MS);
         err = esp_mesh_send(&route_table[i], &data, MESH_DATA_P2P, NULL, 0);
+        vTaskDelay(1 * 1000 / portTICK_RATE_MS);
         // data.data = (uint8_t *)msg_recv;  
         // ESP_LOGI(TAG,"mes_recv is %s   -------- ",msg_recv);   
         //  err = esp_mesh_send(&route_table[i], &data, MESH_DATA_P2P, NULL, 0);
@@ -183,22 +185,29 @@ void esp_mesh_p2p_rx_main(void *arg)
     int n =1;
     int j;
     //int m=1;
-    //int comp;
+    int comp = 1;
      
      while (is_running) {
         data.size = RX_SIZE;
         err = esp_mesh_recv(&from, &data, portMAX_DELAY, &flag, NULL, 0);
-        // vTaskDelay(1 * 1000 / portTICK_RATE_MS);
+          vTaskDelay(1 * 1000 / portTICK_RATE_MS);
          // err = esp_mesh_recv(&from, &data, portMAX_DELAY, MESH_DATA_TODS, NULL, 0);
-        //  msg_recv=(char *)data.data;
-        //  comp = strcmp(msg_recv,last);
-        //  last = (char *)data.data;
-        //  if (comp ==0)
-        //  {
+         msg_recv=(char *)data.data;
+        //  printf("\n\n-------------------------------------------------------------------------\n\n");
+        // printf("THE MSG recieved is:%s",msg_recv);
+        if (last != NULL && msg_recv !=  NULL){
+            comp = strcmp(msg_recv,last);
+        }
+        // printf("last is is:%s",last);
+        // comp = 1;
+        // printf("\n\n-------------------------------------------------------------------------\n\n");
+         last = (char *)data.data;
+         if (comp!=0)
+         {
          ESP_LOGW(TAG,"THE MSG recieved is:%s",(char *)data.data);
-        //  last = (char *)data.data;
-         //}
-
+        //  //last = (char *)data.data;
+        //  memcpy(msg_recv,last,1000);
+         }
         //  msg_recv=(char *)data.data;
         //  if(esp_mesh_is_root() )
         //  {
