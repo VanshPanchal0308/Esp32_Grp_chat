@@ -154,7 +154,8 @@ void app_main()
 #endif
      initialize_console();
      esp_main();//
-     printf("\nChat Communication\n");
+     xTaskCreate(esp_mesh_p2p_rx_main, "esp_mesh_p2p_rx_main", 5000, NULL, 4, NULL);
+    //  printf("\nChat Communication\n");
 int probe_status = linenoiseProbe();
     if (probe_status)
     { /* zero indicates success */
@@ -167,6 +168,7 @@ int probe_status = linenoiseProbe();
 #endif
     }
     xTaskCreate(task_console, "task_console", 3000, NULL, 3, &console);
+    printf("\nChat Communication\n");
     //esp_main();//
 }
 
