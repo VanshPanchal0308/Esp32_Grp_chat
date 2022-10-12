@@ -190,14 +190,18 @@ void esp_mesh_p2p_rx_main(void *arg)
     int j=0;
     // int m=1;
     int comp = 0;
-    int h=1;
+    int mod;
+    // int h=1;
+    int track = 0;
+    bool check;
+
      
      while (is_running) {
         data.size = RX_SIZE;
         err = esp_mesh_recv(&from, &data, portMAX_DELAY, &flag, NULL, 0);
         // ESP_LOGW(TAG,"THE MSG recieved is:%s",(char *)data.data);
-        ESP_LOGI(TAG,"h is %d",h);
-        h++;
+        // ESP_LOGI(TAG,"h is %d",h);
+        // h++;
         //   vTaskDelay(1 * 1000 / portTICK_RATE_MS);
          // err = esp_mesh_recv(&from, &data, portMAX_DELAY, MESH_DATA_TODS, NULL, 0);
          msg_recv=(char *)data.data;
@@ -207,17 +211,24 @@ void esp_mesh_p2p_rx_main(void *arg)
         //     comp=1;
         //     ESP_LOGI (TAG,"if is working");
         //  }
+        comp = strcmp(msg_recv,msg);
+        if (comp == 0)
+        {
+            n++;
+        }
+        mod = n%2;
+
 
         //   err = esp_mesh_recv(&from, &data, portMAX_DELAY, &flag, NULL, 0);
         //  ESP_LOGI (TAG,"last is &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& %s", last);
         //  printf("\n\n-------------------------------------------------------------------------\n\n");
         // printf("THE MSG recieved is:%s",msg_recv);
         //   ESP_LOGI(TAG,"last is &&&&&&&&&&&&& %s",last);
-        if (last != NULL && msg_recv !=  NULL){
-            comp = strcmp(msg_recv,last);
-            ESP_LOGI(TAG,"last is %s",last);
+        // if (last != NULL && msg_recv !=  NULL){
+        //     comp = strcmp(msg_recv,last);
+        //     ESP_LOGI(TAG,"last is %s",last);
            
-        }
+        // }
         // err = esp_mesh_recv(&from, &data, portMAX_DELAY, &flag, NULL, 0);
         // printf("last is is:%s",last);
         // comp = 1;
@@ -228,7 +239,23 @@ void esp_mesh_p2p_rx_main(void *arg)
         //  ESP_LOGI(TAG,"msg_rec is  %s",msg_recv);
         //  if (comp!=0)
         //  {
+        // esp_mesh_is_root();
+         if(esp_mesh_is_root()) //||mod= 0)
+        {
          ESP_LOGW(TAG,"THE MSG recieved is:%s",(char *)data.data);
+        }
+        else if(mod == 0||comp != 0)
+        {
+            ESP_LOGW(TAG,"THE MSG recieved is:%s",(char *)data.data);
+        }
+        // else if(comp != 0)
+        // {
+        //     ESP_LOGW(TAG,"THE MSG recieved is:%s",(char *)data.data);
+        // }
+        else 
+        {
+            continue;
+        }
         //  ESP_LOGI(TAG,"the mac addresss of paret n is "MACSTR"",MAC2STR(from.addr));  
         //  ESP_LOGI(TAG,"last is --------------------------------- %S",last);
         //  //last = (char *)data.data;
@@ -263,7 +290,7 @@ void esp_mesh_p2p_rx_main(void *arg)
         }
         
 
-        if(esp_mesh_is_root()) //)
+        if(esp_mesh_is_root()&&comp !=0) //)
         {
             esp_mesh_get_routing_table((mesh_addr_t *) &route_table,
                                    CONFIG_MESH_ROUTE_TABLE_SIZE * 6, &route_table_size);
