@@ -120,7 +120,7 @@ void task_console()
          */
         /*take user input typed at the prompt*/
         char *line = linenoise(prompt);
-        ESP_LOGI(TAG,"THE message we typesd is %s",line);
+        // ESP_LOGI(TAG,"THE message we typesd is %s",line);
         /*prompt again if the string is empty*/
         while (line == NULL) { /* Break on EOF or error */
             ESP_LOGW(TAG, "Enter a message!!");
@@ -168,7 +168,7 @@ int probe_status = linenoiseProbe();
 #endif
     }
     xTaskCreate(task_console, "task_console", 3000, NULL, 3, &console);
-    printf("\nChat Communication\n");
+    // printf("\nChat Communication\n");
     //esp_main();//
 }
 

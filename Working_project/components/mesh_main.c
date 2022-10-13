@@ -38,7 +38,7 @@ char *last;
 mesh_addr_t route_table[CONFIG_MESH_ROUTE_TABLE_SIZE];
 int route_table_size = 5;
 char data_to_be_sent[250];
-char *msg;
+char *msg = " ";
 char *msg_recv;
 /*******************************************************
  *                Function Declarations
@@ -51,7 +51,7 @@ void esp_mesh_p2p_tx_main(void *arg)
 {
     int i;
     esp_err_t err;
-    esp_err_t err_1;
+    // esp_err_t err_1;
     int send_count = 0;
     mesh_data_t data;
     data.data = (uint8_t *)msg;
@@ -99,7 +99,7 @@ void esp_mesh_p2p_rx_main(void *arg)
 {
     int recv_count = 0;
     esp_err_t err;
-    esp_err_t err_1;
+    // esp_err_t err_1;
     esp_err_t err_2;
 
     mesh_addr_t from;
@@ -110,11 +110,11 @@ void esp_mesh_p2p_rx_main(void *arg)
     data.size = RX_SIZE;
     is_running = true;
     int n =1;
-    int j=0;
+    // int j=0;
     int comp = 0;
     int mod;
-    int track = 0;
-    bool check;
+    // int track = 0;
+    // bool check;
 
      
      while (is_running) {
@@ -132,11 +132,11 @@ void esp_mesh_p2p_rx_main(void *arg)
         //   ESP_LOGE(TAG,"last is AFTER  %s",last);
          if(esp_mesh_is_root()) //||mod= 0)
         {
-         ESP_LOGW(TAG,"THE MSG recieved is:%s",(char *)data.data);
+         ESP_LOGW(TAG,"%s \n\n",(char *)data.data);
         }
         else if(mod == 0||comp != 0)
         {
-            ESP_LOGW(TAG,"THE MSG recieved is:%s",(char *)data.data);
+            ESP_LOGW(TAG,"%s \n\n",(char *)data.data);
         }
         else 
         {
@@ -211,6 +211,7 @@ void mesh_event_handler(void *arg, esp_event_base_t event_base,
         ESP_LOGI(MESH_TAG, "<MESH_EVENT_CHILD_CONNECTED>aid:%d, "MACSTR"",
                  child_connected->aid,
                  MAC2STR(child_connected->mac));
+        ESP_LOGI(TAG,"\nCHAT COMMUNICATION\n");
     }
     break;
     case MESH_EVENT_CHILD_DISCONNECTED: {
@@ -319,6 +320,7 @@ void mesh_event_handler(void *arg, esp_event_base_t event_base,
     case MESH_EVENT_TODS_STATE: {
         mesh_event_toDS_state_t *toDs_state = (mesh_event_toDS_state_t *)event_data;
         ESP_LOGI(MESH_TAG, "<MESH_EVENT_TODS_REACHABLE>state:%d", *toDs_state);
+        ESP_LOGI(TAG,"\nCHAT COMMUNICATION\n");
     }
     break;
     case MESH_EVENT_ROOT_FIXED: {
