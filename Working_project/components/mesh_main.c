@@ -99,9 +99,7 @@ void esp_mesh_p2p_rx_main(void *arg)
 {
     int recv_count = 0;
     esp_err_t err;
-    // esp_err_t err_1;
     esp_err_t err_2;
-
     mesh_addr_t from;
     int send_count = 0;
     mesh_data_t data;
@@ -110,18 +108,13 @@ void esp_mesh_p2p_rx_main(void *arg)
     data.size = RX_SIZE;
     is_running = true;
     int n =1;
-    // int j=0;
     int comp = 0;
     int mod;
-    // int track = 0;
-    // bool check;
-
-     
+    
      while (is_running) {
         data.size = RX_SIZE;
         err = esp_mesh_recv(&from, &data, portMAX_DELAY, &flag, NULL, 0);
          msg_recv=(char *)data.data;
-        //  ESP_LOGI(TAG,"msg_rec is++++++%s",msg_recv);
         comp = strcmp(msg_recv,msg);
         if (comp == 0)
         {
@@ -129,8 +122,7 @@ void esp_mesh_p2p_rx_main(void *arg)
         }
         mod = n%2;
         last = (char *)data.data;
-        //   ESP_LOGE(TAG,"last is AFTER  %s",last);
-         if(esp_mesh_is_root()) //||mod= 0)
+         if(esp_mesh_is_root())
         {
          ESP_LOGW(TAG,"%s \n\n",(char *)data.data);
         }
@@ -170,11 +162,8 @@ void espmesh_start(void )
     {
         ESP_LOGI(TAG, "failed to receive from the queue");
     }
-    // ESP_LOGI(TAG,"THE msg FROM LInoise is %s",got);
     memcpy(data_to_be_sent, got, 100);
-    // ESP_LOGI(TAG, "THE DATA RECIVED IS %s",data_to_be_sent);
     msg=data_to_be_sent;
-    // ESP_LOGI(TAG,"THE TRIED MESSAGE IS %s",msg);
      xTaskCreate(esp_mesh_p2p_tx_main, "esp_mesh_p2p_tx_main", 5000, NULL, 6, NULL);
  }
 esp_err_t esp_mesh_comm_p2p_start(void)
@@ -268,7 +257,6 @@ void mesh_event_handler(void *arg, esp_event_base_t event_base,
                  "<MESH_EVENT_PARENT_DISCONNECTED>reason:%d",
                  disconnected->reason);
         is_mesh_connected = false;
-        //mesh_disconnected_indicator();
         mesh_layer = esp_mesh_get_layer();
     }
     break;
@@ -280,7 +268,7 @@ void mesh_event_handler(void *arg, esp_event_base_t event_base,
                  esp_mesh_is_root() ? "<ROOT>" :
                  (mesh_layer == 2) ? "<layer2>" : "");
         last_layer = mesh_layer;
-       // mesh_connected_indicator(mesh_layer);
+
     }
     break;
     case MESH_EVENT_ROOT_ADDRESS: {

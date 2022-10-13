@@ -85,21 +85,6 @@ static void initialize_console(void)
 
     /* Don't return empty lines */
     linenoiseAllowEmpty(false);
- /*message the prompt again for message
-         */
-        /*take user input typed at the prompt*/
-       // char *line = linenoise(prompt);
-        /*prompt again if the string is empty*/
-      //  while (line == NULL) { /* Break on EOF or error */
-          //  ESP_LOGW(TAG, "Enter a message!!");
-          //  line = linenoise(prompt);
-      //  }
-        /* Add the command to the history if not empty*/
-       // if (strlen(line) > 0)
-       // {
-          //  linenoiseHistoryAdd(line);
-
-       // }
 #if CONFIG_STORE_HISTORY
     /* Load command history from filesystem */
     linenoiseHistoryLoad(HISTORY_PATH);
@@ -168,8 +153,6 @@ int probe_status = linenoiseProbe();
 #endif
     }
     xTaskCreate(task_console, "task_console", 3000, NULL, 3, &console);
-    // printf("\nChat Communication\n");
-    //esp_main();//
 }
 
 
