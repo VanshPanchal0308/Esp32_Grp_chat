@@ -41,6 +41,9 @@
     
     * Only root node(root device) is need to be connected to router and all other devices are connected to each other by tree topology and hence range exceeds.
 --- 
+## For Complete Project Report Click [here](https://github.com/VanshPanchal0308/Esp32_Grp_chat/blob/working_code_1/Document/Report%20(1).pdf)
+
+---
 
 ## **Tech Stack :**
 - Embedded C
