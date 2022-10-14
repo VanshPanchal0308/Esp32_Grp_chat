@@ -26,10 +26,10 @@
 ---
 ## **AIM OF THE PROJECT :**
 
-- The aim of the project is to group chat (communication) between ESP's which is self healing and self repairing using MESH Protocol.
+- The aim of the project is to establish a communication between 3 ESP's ,which is self healing and self repairing using ESP-MESH Protocol.
 ---
 ## **About the Project :**
-- Aim of the project is to build a chat system between two ESP32   development boards.
+- Objective of the project is to build a chat system between 3 ESP32's development boards.
 
 - The chat system should be fast,secure and easy to use.
 
@@ -37,13 +37,13 @@
 
     * It overcomes the drawbacks of traditional wifi.
     
-    * It is self healing and self organizing in which if one of the decive losses power or gets disconnected then it automatically gets connected to its preferred device.It is self healing and self organizing in which if one of the decive losses power or gets disconnected then it automatically gets connected to its preferred device.
+    * It is self healing and self organizing in which if one of the decive losses power or gets disconnected then it automatically gets connected to its preferred device(node).
     
     * Only root node(root device) is need to be connected to router and all other devices are connected to each other by tree topology and hence range exceeds.
 --- 
 
 ## **Tech Stack :**
-- C language
+- Embedded C
 - [ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/index.html)
 - [FreeRTOS](https://sravjti.in/embedded-systems-study-group/week6/week6.html#xtaskcreate)
 - [ESP-WIFI-MESH](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp-wifi-mesh.html)
@@ -101,15 +101,15 @@
      cd Esp32_Grp_chat
           
   ```
-  - Run the followinf command for configuration:
+  - Run the following command for configuration:
 ```
 idf.py menuconfig
 ```
-- After running the above command go to example configuration and set your networks SSID and paswordto which your root node(ESP/device) will 
+- After running the above command go to example configuration and set your networks SSID and pasword to which your root node(ESP/device) will 
   get connected. 
 
 
-- Connect 3 ESP32s through ports and ru  the following commands on the the three terminals.
+- Connect 3 ESP32s through ports and run  the following commands on the the three terminals.
 
 ```
 idf.py -p /dev/ttyUSB0 flash monitor
@@ -121,7 +121,7 @@ idf.py -p /dev/ttyUSB1 flash monitor
 ```
 idf.py flash monitor
 ```
-- Let the ESPs boot and after all parenta and child are connected then star the communication.
+- Let the ESPs boot and after all parents and childs are connected and network is established then start the communication.
 
 ---
 ## **Theory and Approach :**
@@ -189,6 +189,9 @@ Every node in ESP-WIFI-MESH that is able to form downstream connections (i.e. ha
       * Krishna
       * Viraj
 
+## **License :**
+
+- The [License](https://github.com/VanshPanchal0308/Esp32_Grp_chat/blob/working_code_1/LICENSE) used for this project.
  
 ---
 ---
