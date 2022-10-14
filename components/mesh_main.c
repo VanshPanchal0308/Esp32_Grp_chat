@@ -34,7 +34,7 @@ static mesh_addr_t mesh_parent_addr;
 static int mesh_layer = -1;
 static esp_netif_t *netif_sta = NULL;
 char *got;
-char *last;
+
 mesh_addr_t route_table[CONFIG_MESH_ROUTE_TABLE_SIZE];
 int route_table_size = 5;
 char data_to_be_sent[250];
@@ -51,11 +51,10 @@ void esp_mesh_p2p_tx_main(void *arg)
 {
     int i;
     esp_err_t err;
-    // esp_err_t err_1;
+    esp_err_t err_1;
     int send_count = 0;
     mesh_data_t data;
     data.data = (uint8_t *)msg;
-    // ESP_LOGI(TAG,"THE message of data.data is %s", (char *)data.data);
     data.size = sizeof(tx_buf);
     data.proto = MESH_PROTO_BIN;
     data.tos = MESH_TOS_P2P;
@@ -97,7 +96,7 @@ void esp_mesh_p2p_tx_main(void *arg)
 
 void esp_mesh_p2p_rx_main(void *arg)
 {
-    int recv_count = 0;
+    
     esp_err_t err;
     esp_err_t err_2;
     mesh_addr_t from;
@@ -121,7 +120,7 @@ void esp_mesh_p2p_rx_main(void *arg)
             n++;
         }
         mod = n%2;
-        last = (char *)data.data;
+        
          if(esp_mesh_is_root())
         {
          ESP_LOGW(TAG,"%s \n\n",(char *)data.data);
@@ -140,7 +139,7 @@ void esp_mesh_p2p_rx_main(void *arg)
         }
         
 
-        if(esp_mesh_is_root()&&comp !=0) //)
+        if(esp_mesh_is_root()&&comp !=0) 
         {
             esp_mesh_get_routing_table((mesh_addr_t *) &route_table,
                                    CONFIG_MESH_ROUTE_TABLE_SIZE * 6, &route_table_size);                
