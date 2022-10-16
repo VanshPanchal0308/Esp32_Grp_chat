@@ -3,7 +3,7 @@
 ![](https://i.imgur.com/sDASVSk.jpg[/img])
 
 
----
+
 
 ## **Table Of Contents :**
 
@@ -23,11 +23,11 @@
 * [Acknowledgements](#acknowledgements)
 * [License](#license)
 
----
+
 ## **AIM OF THE PROJECT :**
 
 - The aim of the project is to establish a communication between 3 ESP's ,which is self healing and self repairing using ESP-MESH Protocol.
----
+
 ## **About the Project :**
 - Objective of the project is to build a chat system between 3 ESP32's development boards.
 
@@ -40,10 +40,10 @@
     * It is self healing and self organizing in which if one of the decive losses power or gets disconnected then it automatically gets connected to its preferred device(node).
     
     * Only root node(root device) is need to be connected to router and all other devices are connected to each other by tree topology and hence range exceeds.
---- 
+
 ## For Complete Project Report Click [here](https://github.com/VanshPanchal0308/Esp32_Grp_chat/blob/working_code_1/Document/Report%20(1).pdf)
 
----
+
 
 ## **Tech Stack :**
 - Embedded C
@@ -52,7 +52,7 @@
 - [ESP-WIFI-MESH](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp-wifi-mesh.html)
 
 
----
+
 ## **File Structure :**
  ```.
 ├── Components         # Contains files of specific library of functions or library used        
@@ -78,10 +78,10 @@
 ├── LICENSE
 └── README.md 
 ```
- ---
+ 
 
 ## **Getting Started :**
----
+
 ### **Prerequisites :**
 - **ESP-IDF v4.0 and above :**
  
@@ -94,7 +94,7 @@
   ```
     git clone https://github.com/VanshPanchal0308/Esp32_Grp_chat
     ```  
-    ---
+    
 ## **Execution :**
 
 - Open ESP-IDF terminal on Windows or terminal on Linux.
@@ -124,9 +124,9 @@ idf.py -p /dev/ttyUSB1 flash monitor
 ```
 idf.py flash monitor
 ```
-- Let the ESPs boot and after all parents and childs are connected and network is established then start the communication.
+- Start the communication once the network has been built and all parent and child nodes are linked.
 
----
+
 ## **Theory and Approach :**
 
 ESP-WIFI-MESH differs from traditional infrastructure Wi-Fi networks in that nodes are not required to connect to a central node. Instead, nodes are permitted to connect with neighboring nodes. Nodes are mutually responsible for relaying each others transmissions. This allows an ESP-WIFI-MESH network to have much greater coverage area as nodes can still achieve .
@@ -159,13 +159,13 @@ Every node in ESP-WIFI-MESH that is able to form downstream connections (i.e. ha
 
 - ## **To Go Through Basic Network Concepts** [click here](https://github.com/VanshPanchal0308/Esp32_Grp_chat/blob/dev_vansh/Resources/esp32_mesh_term.md)
 
----
+
 
 ## **Code Flow :**
 
 ![](https://i.imgur.com/vjsY8Kc.jpg)
 
----
+
 
 ## **Result And Demo :**
 
@@ -176,12 +176,12 @@ Every node in ESP-WIFI-MESH that is able to form downstream connections (i.e. ha
 - Add http server chat interface.
 - Add encryption to the chat communication.
 
----
+
 ## **Contributors :**
 
 - Vansh Panchal
 - Aryan Karawale
----
+
 
 ## **Acknowledgements :**
 
@@ -197,7 +197,7 @@ Every node in ESP-WIFI-MESH that is able to form downstream connections (i.e. ha
 - The [License](https://github.com/VanshPanchal0308/Esp32_Grp_chat/blob/working_code_1/LICENSE) used for this project.
  
 ---
----
+
 
     
         
